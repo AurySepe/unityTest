@@ -18,14 +18,14 @@ public class ControllaTeletrasporto : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LeftRay.SetActive(leftCancel.action.ReadValue<float>() == 0 && leftActivate.action.ReadValue<float>() > 0.1f);
-        RightRay.SetActive(rightCancel.action.ReadValue<float>() == 0 && rightActivate.action.ReadValue<float>() > 0.1f);
+        
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        LeftRay.SetActive(leftCancel.action.ReadValue<float>() == 0 && leftActivate.action.ReadValue<float>() > 0.1f);
+        RightRay.SetActive(rightCancel.action.ReadValue<float>() == 0 && rightActivate.action.ReadValue<float>() > 0.1f);
     }
 }
