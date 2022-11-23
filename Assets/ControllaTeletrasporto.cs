@@ -31,13 +31,13 @@ public class ControllaTeletrasporto : MonoBehaviour
     void Update()
     {
 
-        bool isLeftRayHovering = leftRay.TryGetHitInfo(out Vector3 leftPos,out Vector3 leftNormal,out int leftNumber,out bool leftValid);
+        leftRay.TryGetHitInfo(out Vector3 leftPos,out Vector3 leftNormal,out int leftNumber,out bool leftValid);
+
+        LeftRay.SetActive(!leftValid && leftCancel.action.ReadValue<float>() == 0 && leftActivate.action.ReadValue<float>() > 0.1f);
         
-        LeftRay.SetActive(!isLeftRayHovering && leftCancel.action.ReadValue<float>() == 0 && leftActivate.action.ReadValue<float>() > 0.1f);
-        
-        bool isRightRayHovering = rightRay.TryGetHitInfo(out Vector3 rightPos,out Vector3 rightNormal,out int rightNumber,out bool rightValid);
+        rightRay.TryGetHitInfo(out Vector3 rightPos,out Vector3 rightNormal,out int rightNumber,out bool rightValid);
 
         
-        RightRay.SetActive( !isRightRayHovering && rightCancel.action.ReadValue<float>() == 0 && rightActivate.action.ReadValue<float>() > 0.1f);
+        RightRay.SetActive( !rightValid && rightCancel.action.ReadValue<float>() == 0 && rightActivate.action.ReadValue<float>() > 0.1f);
     }
 }
