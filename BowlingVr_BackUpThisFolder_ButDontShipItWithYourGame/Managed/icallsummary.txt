@@ -316,7 +316,6 @@ UnityEngine.CanvasGroup::get_ignoreParentGroups
 UnityEngine.CanvasGroup::get_interactable
 UnityEngine.CanvasGroup::get_alpha
 UnityEngine.CanvasGroup::set_alpha
-UnityEngine.CanvasGroup::set_interactable
 UnityEngine.CanvasRenderer::get_cull
 UnityEngine.CanvasRenderer::get_cullTransparentMesh
 UnityEngine.CanvasRenderer::get_hasMoved
@@ -709,6 +708,7 @@ UnityEngine.Matrix4x4::Inverse3DAffine_Injected
 UnityEngine.Matrix4x4::DecomposeProjection_Injected
 UnityEngine.Matrix4x4::GetLossyScale_Injected
 UnityEngine.Matrix4x4::Inverse_Injected
+UnityEngine.Matrix4x4::LookAt_Injected
 UnityEngine.Matrix4x4::Ortho_Injected
 UnityEngine.Matrix4x4::Perspective_Injected
 UnityEngine.Matrix4x4::TRS_Injected
@@ -1053,11 +1053,11 @@ UnityEngine.SceneManagement.SceneManager::get_sceneCount
 UnityEngine.SceneManagement.SceneManager::GetActiveScene_Injected
 UnityEngine.SceneManagement.SceneManager::GetSceneAt_Injected
 UnityEngine.SceneManagement.SceneManagerAPIInternal::LoadSceneAsyncNameIndexInternal_Injected
+UnityEngine.Screen::get_fullScreen
 UnityEngine.Screen::get_height
 UnityEngine.Screen::get_width
 UnityEngine.Screen::get_dpi
 UnityEngine.Screen::get_safeArea_Injected
-UnityEngine.Screen::get_fullScreenMode
 UnityEngine.Screen::GetScreenOrientation
 UnityEngine.ScriptableObject::CreateScriptableObject
 UnityEngine.ScriptableObject::CreateScriptableObjectInstanceFromType
@@ -1119,6 +1119,7 @@ UnityEngine.SystemInfo::GetRenderTextureSupportedMSAASampleCount_Injected
 UnityEngine.SystemInfo::SupportedRenderTargetCount
 UnityEngine.SystemInfo::SupportsMultisampledTextures
 UnityEngine.SystemInfo::MaxGraphicsBufferSize
+UnityEngine.SystemInfo::GetDeviceModel
 UnityEngine.SystemInfo::GetGraphicsDeviceName
 UnityEngine.SystemInfo::GetGraphicsDeviceVendor
 UnityEngine.SystemInfo::GetProcessorType
