@@ -159,6 +159,7 @@ MonoBehaviour:
   - {fileID: 8601220378636516175}
   - {fileID: 3394837853586167979}
   - {fileID: -4751232130331478785}
+  - {fileID: 138258338702901384}
   - {fileID: 7594433984790293566}
   - {fileID: 1333504720746268566}
   - {fileID: -3831246752269548981}
@@ -181,6 +182,27 @@ MonoBehaviour:
   - {fileID: -6972551045068313342}
   - {fileID: -1802010501755623640}
   - {fileID: -3922860820540992435}
+--- !u!114 &138258338702901384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de993716e042c6499d0c18eed3a773c, type: 3}
+  m_Name: MockRuntime Android
+  m_EditorClassIdentifier: 
+  m_enabled: 0
+  nameUi: Mock Runtime
+  version: 0.0.2
+  featureIdInternal: com.unity.openxr.feature.mockruntime
+  openxrExtensionStrings: XR_UNITY_null_gfx XR_UNITY_android_present
+  company: Unity
+  priority: 0
+  required: 0
+  ignoreValidationErrors: 0
 --- !u!114 &154189092879288027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +361,7 @@ MonoBehaviour:
   nameUi: Mock Runtime
   version: 0.0.2
   featureIdInternal: com.unity.openxr.feature.mockruntime
-  openxrExtensionStrings: XR_UNITY_null_gfx
+  openxrExtensionStrings: XR_UNITY_null_gfx XR_UNITY_android_present
   company: Unity
   priority: 0
   required: 0
@@ -424,6 +446,8 @@ MonoBehaviour:
   company: Unity
   priority: 0
   required: 0
+  targetQuest: 1
+  targetQuest2: 1
 --- !u!114 &8601220378636516175
 MonoBehaviour:
   m_ObjectHideFlags: 0
