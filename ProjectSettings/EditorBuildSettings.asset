@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Tutto/Tutto.unity
     guid: dbbdd06598647604eb741ab9ab7f972c
+  - enabled: 1
+    path: Assets/MetaClass/Lavagna da disegno/Lavagna Scena.unity
+    guid: f49611cd75b9dac4e8d70c23193d64c9
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260,
       type: 2}
