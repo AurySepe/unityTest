@@ -11,6 +11,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MetaClass/Lavagna da disegno/Lavagna Scena.unity
     guid: f49611cd75b9dac4e8d70c23193d64c9
+  - enabled: 0
+    path: Assets/Oculus/Interaction/Samples/Scenes/Features/HandGrab.unity
+    guid: 1ca1035b12c67f24d81e7bc5ad627d76
+  - enabled: 0
+    path: Assets/Oculus/Interaction/Samples/Scenes/Examples/TransformerExamples.unity
+    guid: 7475942f60c376744ba1ec487d140105
+  - enabled: 0
+    path: Assets/MetaClass/Solo Oculus/Scena Solo Oculus.unity
+    guid: 57c578ba9f2fca041bfae1d73f523795
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260,
       type: 2}

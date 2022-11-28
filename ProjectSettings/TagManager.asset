@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Right hand
   - Left hand
+  - Ray
   layers:
   - Default
   - TransparentFX
