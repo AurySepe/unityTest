@@ -10,6 +10,7 @@ public class WhiteboardMarker : MonoBehaviour
     [SerializeField] private int _penSize = 5;
 
     private Renderer _renderer;
+    private Color _transparent;
 
     private Color[] _colors;
     private float _tipHeight;
@@ -23,12 +24,17 @@ public class WhiteboardMarker : MonoBehaviour
 
     private Quaternion _lastTouchRot;
 
+    private Color _whiteboardColor;
+
     private bool _touchedLastFrame;
+
+    public bool isEreaser = false;
     void Start()
     {
         _renderer = _tip.GetComponent<Renderer>();
-        _colors = makeCircle(_penSize/2,_penSize/2,_penSize/2);
-        //_colors = Enumerable.Repeat(_renderer.material.color, _penSize*_penSize).ToArray();
+        //_transparent = Color.red;
+        _transparent = Color.clear;
+        _colors = makeCircle((_penSize/2),(_penSize/2),(_penSize/2),_renderer.material.color);
         _tipHeight = _tip.localScale.y;
     }
 
@@ -49,7 +55,17 @@ public class WhiteboardMarker : MonoBehaviour
                 if (_whiteboard == null)
                 {
                     _whiteboard = _touch.transform.GetComponent<Whiteboard>();
+                    
+
+                    if (isEreaser)
+                    {
+                        _whiteboardColor = _touch.transform.GetComponent<Renderer>().material.color;
+                        
+                        _colors = makeCircle((_penSize/2),(_penSize/2),(_penSize/2),_whiteboardColor);
+                    }
+                    
                 }
+                
 
                 _touchPos = new Vector2(_touch.textureCoord.x, _touch.textureCoord.y);
 
@@ -91,11 +107,12 @@ public class WhiteboardMarker : MonoBehaviour
         _touchedLastFrame = false;
     }
     
-    private Color[] makeCircle(int centerX,int centerY,int radius)
+    private Color[] makeCircle(int centerX,int centerY,int radius,Color color)
     {
         int x, y, d, yDiff, threshold, radiusSq;
-        Color[,] _colorsTemp = new Color[_penSize,_penSize];
-        Color[] _colorTemp = new Color[_penSize*_penSize];
+        Color[,] colorsTemp = new Color[_penSize,_penSize];
+        Color[] colorTemp = new Color[_penSize*_penSize];
+        
         radius = (radius * 2) + 1;
         radiusSq = (radius * radius) / 4;
         for(y = 0; y < _penSize; y++)
@@ -105,7 +122,7 @@ public class WhiteboardMarker : MonoBehaviour
             for(x = 0; x < _penSize; x++)
             {
                 d = x - centerX;
-                _colorsTemp[y,x] = ((d * d) > threshold) ? Color.clear : _renderer.material.color;
+                colorsTemp[y,x] = ((d * d) > threshold) ? _transparent : color;
             }
         }
 
@@ -113,10 +130,10 @@ public class WhiteboardMarker : MonoBehaviour
         k = 0;
         for (i = 0; i < _penSize; i++) {
             for (j = 0; j < _penSize; j++) {
-                _colorTemp[k++] = _colorsTemp[i, j];
+                colorTemp[k++] = colorsTemp[i, j];
             }
         }
 
-        return _colorTemp;
+        return colorTemp;
     }
 }
