@@ -145,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tip: {fileID: 7980040150389073446}
   _penSize: 25
+  isEreaser: 0
 --- !u!1 &7980040151279457599
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Oculus.Interaction;
+using Oculus.Interaction.HandGrab;
+using Oculus.Interaction.Input;
 using UnityEngine;
 
 public class WhiteboardMarker : MonoBehaviour
@@ -10,7 +13,8 @@ public class WhiteboardMarker : MonoBehaviour
     [SerializeField] private int _penSize = 5;
 
     private Renderer _renderer;
-    private Color _transparent;
+
+    private Grabbable _ovrGrabbale;
 
     private Color[] _colors;
     private float _tipHeight;
@@ -29,21 +33,50 @@ public class WhiteboardMarker : MonoBehaviour
     private bool _touchedLastFrame;
 
     public bool isEreaser = false;
+
+    public AudioClip writingSound;
+    
+    public AudioSource _AudioSource;
+    
+    [SerializeField]
+    HandGrabInteractor grabInteractorRight;
+    [SerializeField]
+    HandGrabInteractor grabInteractorLeft;
+    
     void Start()
     {
         _renderer = _tip.GetComponent<Renderer>();
-        //_transparent = Color.red;
-        _transparent = Color.clear;
-        _colors = makeCircle((_penSize/2),(_penSize/2),(_penSize/2),_renderer.material.color);
+        
+        _AudioSource = GetComponent<AudioSource>();
+        _AudioSource.loop = true;
+
+        _ovrGrabbale = transform.GetComponent<Grabbable>();
+
+        _colors =Enumerable.Repeat(_renderer.material.color, _penSize*_penSize).ToArray();
         _tipHeight = _tip.localScale.y;
     }
 
-    void Update()
+    OVRInput.Controller ControllerThatIsGrabbing()
+    {
+        if (grabInteractorLeft.IsGrabbing && grabInteractorLeft.Interactable.transform.parent.Equals(transform))
+        {
+            return OVRInput.Controller.LTouch;
+        }
+        else if (grabInteractorRight.IsGrabbing && grabInteractorRight.Interactable.transform.parent.Equals(transform))
+        {
+            return OVRInput.Controller.RTouch;
+        }
+
+        return OVRInput.Controller.None;
+    }
+
+    void FixedUpdate()
     {
         //se stiamo toccando la lavagno cambiamo il render della lavagna
         Draw();
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     private void Draw()
     {
         //se tocchiamo qualcosa dalla poszione della punta e si va versp l'alto allora facciamo questo
@@ -55,13 +88,17 @@ public class WhiteboardMarker : MonoBehaviour
                 if (_whiteboard == null)
                 {
                     _whiteboard = _touch.transform.GetComponent<Whiteboard>();
-                    
 
                     if (isEreaser)
                     {
                         _whiteboardColor = _touch.transform.GetComponent<Renderer>().material.color;
+
+                        if (_whiteboardColor == null)
+                        {
+                            _whiteboardColor = Color.white;
+                        }
                         
-                        _colors = makeCircle((_penSize/2),(_penSize/2),(_penSize/2),_whiteboardColor);
+                        _colors =Enumerable.Repeat(_whiteboardColor, _penSize*_penSize).ToArray();
                     }
                     
                 }
@@ -80,24 +117,24 @@ public class WhiteboardMarker : MonoBehaviour
 
                 if (_touchedLastFrame)
                 {
+                    
                     _whiteboard.texture.SetPixels(x, y, _penSize, _penSize,_colors);
-
-                    for (float f = 0.01f; f < 1.00f; f += 0.01f)
+                    VibrationManager.singleton.TriggerVibration(20,2,1,ControllerThatIsGrabbing());
+                    _AudioSource.Play();
+                    
+                    for (float f = 0.00f; f < 1.00f; f += 0.05f)
                     {
                         var lerpX = (int)Mathf.Lerp(_lastTouchPos.x, x, f);
                         var lerpY = (int)Mathf.Lerp(_lastTouchPos.y, y, f);
                         
                         _whiteboard.texture.SetPixels(lerpX, lerpY, _penSize, _penSize,_colors);
                     }
-                    
-                    //bloccare la rotazione quando si interagisce con la lavagna e non farla flippare troppo
-                   // transform.rotation = _lastTouchRot;
-                    
+
                     _whiteboard.texture.Apply();
                 }
 
+                _AudioSource.Stop();
                 _lastTouchPos = new Vector2(x, y);
-               // _lastTouchRot = transform.rotation;
                 _touchedLastFrame = true;
                 return;
             }
@@ -106,34 +143,5 @@ public class WhiteboardMarker : MonoBehaviour
         _whiteboard = null;
         _touchedLastFrame = false;
     }
-    
-    private Color[] makeCircle(int centerX,int centerY,int radius,Color color)
-    {
-        int x, y, d, yDiff, threshold, radiusSq;
-        Color[,] colorsTemp = new Color[_penSize,_penSize];
-        Color[] colorTemp = new Color[_penSize*_penSize];
-        
-        radius = (radius * 2) + 1;
-        radiusSq = (radius * radius) / 4;
-        for(y = 0; y < _penSize; y++)
-        {
-            yDiff = y - centerY;
-            threshold = radiusSq - (yDiff * yDiff);
-            for(x = 0; x < _penSize; x++)
-            {
-                d = x - centerX;
-                colorsTemp[y,x] = ((d * d) > threshold) ? _transparent : color;
-            }
-        }
-
-        int i, j, k;
-        k = 0;
-        for (i = 0; i < _penSize; i++) {
-            for (j = 0; j < _penSize; j++) {
-                colorTemp[k++] = colorsTemp[i, j];
-            }
-        }
-
-        return colorTemp;
-    }
 }
+
