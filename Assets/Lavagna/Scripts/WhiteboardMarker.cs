@@ -5,6 +5,7 @@ using System.Linq;
 using Oculus.Interaction;
 using Oculus.Interaction.HandGrab;
 using Oculus.Interaction.Input;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WhiteboardMarker : MonoBehaviour
@@ -110,25 +111,37 @@ public class WhiteboardMarker : MonoBehaviour
                 var y = (int)(_touchPos.y * _whiteboard.textureSize.y - (_penSize / 2));
 
                 //se siamo fuori dalla lavagna smettiamo di disegnare
-                if (y < 0 || y > _whiteboard.textureSize.y || x < 0 || x > _whiteboard.textureSize.x )
+                if (y < 0 || y > _whiteboard.textureSize.y-5 || x < 0 || x > _whiteboard.textureSize.x-5 )
                 {
                     return;
                 }
 
                 if (_touchedLastFrame)
                 {
-                    
+                    var touchCord = new Vector2(x, y);
+
+                    float distance = Vector2.Distance(_lastTouchPos,touchCord);
+
                     _whiteboard.texture.SetPixels(x, y, _penSize, _penSize,_colors);
                     VibrationManager.singleton.TriggerVibration(20,2,1,ControllerThatIsGrabbing());
                     _AudioSource.Play();
+
+                    var interation = (_penSize / distance)/3;
+
+                    var i = 0;
                     
-                    for (float f = 0.00f; f < 1.00f; f += 0.05f)
+                    for (float f = 0.01f; f < 1; f += interation)
                     {
                         var lerpX = (int)Mathf.Lerp(_lastTouchPos.x, x, f);
                         var lerpY = (int)Mathf.Lerp(_lastTouchPos.y, y, f);
+
+                        i++;
+                        
                         
                         _whiteboard.texture.SetPixels(lerpX, lerpY, _penSize, _penSize,_colors);
                     }
+                    
+                    print("ITERAZIONI FATTE "+i);
 
                     _whiteboard.texture.Apply();
                 }
